@@ -5,8 +5,8 @@ from conf.connect import mysql_user, mysql_host, mysql_password, database_name
 
 def connect_to_mysql():
     """
-    connect to mysql
-    :return: cursor
+    to create a connection to mysql
+    :return: a connection object
     """
     mysql_connection = mysql.connector.connect(
         host=mysql_host,
@@ -18,12 +18,10 @@ def connect_to_mysql():
 
 def create_db(mysql_connection, database_name):
     """
-    create database if not exist
-    :param cursor: from connect_to_mysql()
-    :param database_name: from conf
-    :param mysql_user: from conf
-    :param mysql_password: from conf
-    :return:
+    create the database if not exists
+    :param mysql_connection: a connection object
+    :param database_name: the name of the new database
+    :return:nan
     """
     cursor = mysql_connection.cursor()
     cursor.execute("""CREATE DATABASE IF NOT EXISTS """ + database_name)
@@ -31,13 +29,21 @@ def create_db(mysql_connection, database_name):
 
 
 def connect_to_db():
+    """
+    connection to database
+    :return: a connection object
+    """
     db_connection = create_engine(
         'mysql+pymysql://{0}:{1}@localhost/{2}'.format(mysql_user, mysql_password, database_name))
     return db_connection
 
 
 def create_customer_table(db_connection):
-    # Creating table as per requirement
+    """
+    create customer table via sql request with execute
+    :param db_connection: object connection to db
+    :return: nan
+    """
     sql = '''CREATE TABLE IF NOT EXISTS customer(
     id_customer INT NOT NULL,
     name VARCHAR(32) NOT NULL,
@@ -52,7 +58,11 @@ def create_customer_table(db_connection):
 
 
 def create_text_table(db_connection):
-    # Creating table as per requirement
+    """
+    create text table via sql request with execute
+    :param db_connection: object connection to db
+    :return: nan
+    """
     sql = '''CREATE TABLE IF NOT EXISTS text(
         id_text INT NOT NULL,
         content TEXT NOT NULL,
@@ -68,7 +78,11 @@ def create_text_table(db_connection):
 
 
 def create_feeling_table(db_connection):
-    # Creating table as per requirement
+    """
+    create text table via sql request with execute
+    :param db_connection: object connection to db
+    :return: nan
+    """
     sql = '''CREATE TABLE IF NOT EXISTS feeling(
         id_feeling INT NOT NULL,
         first_feeling VARCHAR(16) NOT NULL,
@@ -88,5 +102,9 @@ def create_feeling_table(db_connection):
 
 
 def close_connection(mysql_connection):
-    # Closing the connection
+    """
+    close the connection to mysql
+    :param mysql_connection: an connection object
+    :return: nan
+    """
     mysql_connection.close()
