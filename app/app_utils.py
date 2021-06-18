@@ -1,26 +1,35 @@
 import pandas as pd
 import streamlit as st
 import requests
+import json
+from src.start.to_start import db_connection
 
 
-def charge_all_data(db_connection, table_name):
+# #################################################################################""
+
+def display_coach_page():
+    st.write("this is the customer page")
+    selection = st.selectbox("Action", ["", 'afficher un client', 'afficher tous les clients'])
+    if selection == "afficher un client":
+        st.write("ok")
+    elif selection == "afficher tous les clients":
+        customers_list = []
+        response = requests.get(" http://127.0.0.1:8000/customer")
+        customers = response.json()
+        st.write(json.dumps(customers))
+
+    else:
+        st.write("")
+
+
+def display_cust_page():
+    st.write("this is the coach page")
+
+
+def charge_all_data(table_name):
     df = pd.read_sql('SELECT * FROM {}'.format(table_name), con=db_connection)
     return df
 
 
-def upload_table(df, table_name, db_connection):
+def upload_table(df, table_name):
     df.to_sql(table_name, db_connection, if_exists="replace")
-
-
-def display_cust_page():
-    st.text_input('entrer id customer', '')
-    # if len(id) > 0:
-    #     customer = requests.get(" http://127.0.0.1:8000/customer/{}".format(id))
-    #     name = customer.json()["name"]
-    # else:
-    #     name = "no id"
-    # st.write(name)
-    # charger les data necessaire depuis la db
-
-
-
