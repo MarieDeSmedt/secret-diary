@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from conf.connect import mysql_user, mysql_host, mysql_password, database_name
 
 
+
 def connect_to_mysql():
     """
     to create a connection to mysql
@@ -11,7 +12,8 @@ def connect_to_mysql():
     mysql_connection = mysql.connector.connect(
         host=mysql_host,
         user=mysql_user,
-        password=mysql_password)
+        password=mysql_password,
+        auth_plugin='mysql_native_password')
 
     return mysql_connection
 
@@ -34,7 +36,7 @@ def connect_to_db():
     :return: a connection object
     """
     db_connection = create_engine(
-        'mysql+pymysql://{0}:{1}@localhost/{2}'.format(mysql_user, mysql_password, database_name))
+        'mysql+mysqlconnector://{0}:{1}@localhost/{2}'.format(mysql_user, mysql_password, database_name))
     return db_connection
 
 
