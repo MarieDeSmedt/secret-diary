@@ -39,21 +39,33 @@ For it:
 ## Content
 
   
--> src
+-> api
 
-    -> d00_utils (contient les méthodes utiles au projet)
+    -> api.py (api using fastapi)
        
-       -> __init__.py (iniitialisation du module)
-       
-       -> mysql_utils.py (connection to mysql)
-  
+      
+ -> app
+
+    -> app_utils (methods)
+    -> my_app (front app with streamlit)
+    
+ -> src
+    
+    -> utils        
+        
+        -> __init__
+        -> mysql_utils (method to connect to database)
    
 
 
-
-- requirements.txt (Contient les librairies et les versions utilisées)
+- requirements.txt (Contains libraries and versions)
 
 ## Getting Started
+
+localy :
+
+- uvicorn api.api:api --reload
+- streamlit run app/my_app.py
 
 
 
