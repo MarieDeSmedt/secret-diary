@@ -4,19 +4,20 @@ api = FastAPI()
 
 
 # ###################   CUSTOMER    ######################################################################
-@api.get("")
-def predict(input: str):
-    tfidf, model = pickle.load(open('model.bin', 'rb'))
-    predictions = model.predict(tfidf.transform([input]))
-    label = predictions[0]
-    return {'text': input, 'label': label}
+
+@api.get("/customer/{id}")
+def get_cust_by_id(customer_df,id):
+    name = "name"
+    firstname = "firstname"
+    information = "information"
+    return {'name': name, 'firstname': firstname, 'information': information }
 
 
-@api.get("")
-@api.post("")
-@api.put("")
-@api.delete("")
-def delete_cust_by_id(customer_df,id):
+@api.get("/customer/")
+@api.post("/customer/")
+@api.put("/customer/{id}")
+@api.delete("/customer/{id}")
+def delete_cust_by_id(customer_df, id):
     """
     delete one customer by id
     :param customer_df: dataset from customer table
@@ -24,9 +25,6 @@ def delete_cust_by_id(customer_df,id):
     :return:nan
     """
     return customer_df.drop(id)
-
-
-
 
 # ###################   TEXT    ######################################################################
 

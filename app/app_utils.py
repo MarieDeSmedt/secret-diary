@@ -11,14 +11,11 @@ def charge_all_data(db_connection, table_name):
 def upload_table(df, table_name, db_connection):
     df.to_sql(table_name, db_connection, if_exists="replace")
 
-def display_test():
-    search_input = st.text_input('test', '')
-    if len(search_input) > 0:
-        response = requests.get("https://lit-spire-48980.herokuapp.com/{}".format(search_input))
-        emotion = response.json()["emotion"]
-        st.write(emotion)
-        response = requests.get(
-            "https://api.giphy.com/v1/gifs/random?api_key=u5zI8PiTKx0y7b6Csh5GmUdhgD0hZ315&tag={}&rating=g".format(
-                emotion))
-        image_url = response.json()["data"]["image_original_url"]
-        st.image(image_url)
+
+def display_cust_page():
+    id = st.text_input('entrer id customer', '')
+    if len(id) > 0:
+        customer = requests.get(" http://127.0.0.1:8000/customer/{}".format(id))
+        name = customer.json()["name"]
+        st.write(name)
+    return customer
