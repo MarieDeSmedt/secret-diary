@@ -71,11 +71,11 @@ def create_feeling_table(db_connection):
     # Creating table as per requirement
     sql = '''CREATE TABLE IF NOT EXISTS feeling(
         id_feeling INT NOT NULL,
-        first_feeling TEXT NOT NULL,
+        first_feeling VARCHAR(16) NOT NULL,
         first_pourcentage FLOAT NOT NULL,
-        second_feeling TEXT,
+        second_feeling VARCHAR(16),
         second_pourcentage FLOAT,
-        third_feeling TEXT,
+        third_feeling VARCHAR(16),
         third_pourcentage FLOAT,
         creation_date DATE NOT NULL,
         modification_date DATE,
