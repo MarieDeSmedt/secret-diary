@@ -6,21 +6,82 @@ from src.start.to_start import db_connection
 
 
 # #################################################################################""
+def display_all_cust():
+    """
+    request api for the list of all guest
+    :return:
+    """
+    response = requests.get(" http://127.0.0.1:8000/customer")
+    if not response:
+        st.write('No Data!')
+    else:
+        j = response.json()
+        st.json(j)
+
+
+
+
+
+def display_cust_by_id(id):
+    response = requests.get(" http://127.0.0.1:8000/customer/{}".format(id))
+    if not response:
+        st.write('No Data!')
+    else:
+        j = response.json()
+        st.json(j)
+
+
+
+def create_cust():
+    input_name = st.text_input('Name:')
+    if len(input_name) > 0:
+        input_firstname = st.text_input('Firstname:')
+        if len(input_firstname) > 0:
+            input_information = st.text_input('Information:')
+            if len(input_information) > 0:
+                cust_info = [input_name, input_firstname, input_information]
+                response = requests.post("http://127.0.0.1:8000/customer/{}".format(cust_info))
+                if not response:
+                    st.write("not created")
+                else:
+                    st.write("the customer {} {} is created".format(input_name, input_firstname))
+
+
+def modify_cust(id):
+    st.write("modify todo")
+
+def delete_cust_by_id(id):
+    st.write('todo')
+
 
 def display_coach_page():
-    st.write("this is the customer page")
-    selection = st.selectbox("Action", ["", 'afficher un client', 'afficher tous les clients'])
-    if selection == "afficher un client":
-        st.write("ok")
-    elif selection == "afficher tous les clients":
-        response = requests.get(" http://127.0.0.1:8000/customer")
-        if not response:
-            st.write('No Data!')
-        else:
-            j = response.json()
-            st.write(j['0']['name'])
+    """
+    display the init coach page
+    :return:
+    """
+    selection = st.selectbox("Action", ["", 'display a customer', "create a customer", 'modify a customer',
+                                        'display all customers', 'delete customer'])
+    if selection == "display a customer":
+        input_id = st.number_input('enter the customer id to display')
+        if input_id > 0:
+            input_id = int(input_id)
+            display_cust_by_id(input_id)
+    elif selection == "create a customer":
+        create_cust()
+    elif selection == "modify a customer":
+        input_id = st.number_input('enter the customer id to delete')
+        if input_id > 0:
+            input_id = int(input_id)
+            modify_cust(input_id)
+    elif selection == "display all customers":
+        display_all_cust()
+    elif selection == "delete customer":
+        input_id = st.number_input('enter the customer id to delete')
+        if input_id > 0:
+            input_id = int(input_id)
+            delete_cust_by_id(input_id)
     else:
-        st.write("")
+        st.write("choisir tu dois")
 
 
 def display_cust_page():
