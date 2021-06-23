@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 from fastapi import FastAPI
 from src.start.to_start import db_connection
@@ -19,9 +20,10 @@ def get_cust_by_id(id):
 
 @api.get("/customer")
 def get_all_customer():
-    all_guest = []
     df = pd.read_sql('SELECT * FROM {}'.format("customer"), con=db_connection)
-    response = df.to_json()
+    result = df.to_json(orient="index")
+    response = json.loads(result)
+    # response = json.dumps(response, indent=4)
     return response
 
 

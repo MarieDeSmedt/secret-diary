@@ -1,6 +1,5 @@
 from src.utils.mysql_utils import connect_to_mysql, connect_to_db, create_db, create_customer_table, \
-    create_text_table, \
-    create_feeling_table, close_connection
+    create_text_table, close_connection
 from conf.connect import database_name
 
 # connect to mysql
@@ -18,8 +17,6 @@ create_customer_table(db_connection)
 # create text table
 create_text_table(db_connection)
 
-# create feeling table
-create_feeling_table(db_connection)
 
 # close connection
 close_connection(mysql_connection)

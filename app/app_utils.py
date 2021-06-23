@@ -13,11 +13,12 @@ def display_coach_page():
     if selection == "afficher un client":
         st.write("ok")
     elif selection == "afficher tous les clients":
-        customers_list = []
         response = requests.get(" http://127.0.0.1:8000/customer")
-        customers = response.json()
-        st.write(json.dumps(customers))
-
+        if not response:
+            st.write('No Data!')
+        else:
+            j = response.json()
+            st.write(j['0']['name'])
     else:
         st.write("")
 

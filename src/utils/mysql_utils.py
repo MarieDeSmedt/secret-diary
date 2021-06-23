@@ -72,35 +72,18 @@ def create_text_table(db_connection):
         modification_date DATE,
         delete_date DATE,
         id_customer INT NOT NULL,
-        PRIMARY KEY (id_text),
-        FOREIGN KEY (id_customer) REFERENCES customer(id_customer)        
-        )'''
-    #
-    db_connection.execute(sql)
-
-
-def create_feeling_table(db_connection):
-    """
-    create text table via sql request with execute
-    :param db_connection: object connection to db
-    :return: nan
-    """
-    sql = '''CREATE TABLE IF NOT EXISTS feeling(
-        id_feeling INT NOT NULL,
         first_feeling VARCHAR(16) NOT NULL,
         first_pourcentage FLOAT NOT NULL,
         second_feeling VARCHAR(16),
         second_pourcentage FLOAT,
         third_feeling VARCHAR(16),
         third_pourcentage FLOAT,
-        creation_date DATE NOT NULL,
-        modification_date DATE,
-        delete_date DATE,
-        id_text INT NOT NULL,
-        PRIMARY KEY (id_feeling),
-        FOREIGN KEY (id_text) REFERENCES text(id_text)
+        PRIMARY KEY (id_text),
+        FOREIGN KEY (id_customer) REFERENCES customer(id_customer)        
         )'''
+    #
     db_connection.execute(sql)
+
 
 
 def close_connection(mysql_connection):
