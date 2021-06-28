@@ -2,7 +2,9 @@ import pandas as pd
 import streamlit as st
 import requests
 import json
+from datetime import datetime
 from src.start.to_start import db_connection
+from models.customer import Customer
 
 
 # #################################################################################""
@@ -19,9 +21,6 @@ def display_all_cust():
         st.json(j)
 
 
-
-
-
 def display_cust_by_id(id):
     response = requests.get(" http://127.0.0.1:8000/customer/{}".format(id))
     if not response:
@@ -31,7 +30,6 @@ def display_cust_by_id(id):
         st.json(j)
 
 
-
 def create_cust():
     input_name = st.text_input('Name:')
     if len(input_name) > 0:
@@ -39,19 +37,22 @@ def create_cust():
         if len(input_firstname) > 0:
             input_information = st.text_input('Information:')
             if len(input_information) > 0:
-                cust_info = [input_name, input_firstname, input_information]
-                response = requests.post("http://127.0.0.1:8000/customer/{}".format(cust_info))
+                customer = Customer(name=input_name, firstname=input_firstname, information=input_information)
+                customer.creation_date = datetime.today()
+                response = requests.post("http://127.0.0.1:8000/customer/{}".format())
                 if not response:
                     st.write("not created")
                 else:
-                    st.write("the customer {} {} is created".format(input_name, input_firstname))
+                    st.write(response)
 
 
 def modify_cust(id):
-    st.write("modify todo")
+    st.write("modify_cust todo")
+
 
 def delete_cust_by_id(id):
-    st.write('todo')
+    print("start1")
+    requests.delete("http://127.0.0.1:8000/customer/{}".format(id))
 
 
 def display_coach_page():
