@@ -1,10 +1,9 @@
 import pandas as pd
 import streamlit as st
 import requests
-import json
+
 from datetime import datetime
 from src.start.to_start import db_connection
-from models.customer import Customer
 
 
 # #################################################################################""
@@ -26,8 +25,8 @@ def display_cust_by_id(id):
     if not response:
         st.write('No Data!')
     else:
-        j = response.json()
-        st.json(j)
+        customer = response.json()
+        st.write(customer['name'])
 
 
 def create_cust():
@@ -37,13 +36,13 @@ def create_cust():
         if len(input_firstname) > 0:
             input_information = st.text_input('Information:')
             if len(input_information) > 0:
-                customer = Customer(name=input_name, firstname=input_firstname, information=input_information)
-                customer.creation_date = datetime.today()
-                response = requests.post("http://127.0.0.1:8000/customer/{}".format())
-                if not response:
-                    st.write("not created")
-                else:
-                    st.write(response)
+                if st.button('create customer'):
+                    # response = requests.post("http://127.0.0.1:8000/customer/{}".format())
+                    response = "create_customer in process"
+                    if not response:
+                        st.write("not created")
+                    else:
+                        st.write(response)
 
 
 def modify_cust(id):
@@ -60,8 +59,7 @@ def display_coach_page():
     display the init coach page
     :return:
     """
-    selection = st.selectbox("Action", ["", 'display a customer', "create a customer", 'modify a customer',
-                                        'display all customers', 'delete customer'])
+    selection = st.selectbox("Action", ["", 'display a customer', "create a customer", 'display all customers'])
     if selection == "display a customer":
         input_id = st.number_input('enter the customer id to display')
         if input_id > 0:
@@ -69,24 +67,14 @@ def display_coach_page():
             display_cust_by_id(input_id)
     elif selection == "create a customer":
         create_cust()
-    elif selection == "modify a customer":
-        input_id = st.number_input('enter the customer id to delete')
-        if input_id > 0:
-            input_id = int(input_id)
-            modify_cust(input_id)
     elif selection == "display all customers":
         display_all_cust()
-    elif selection == "delete customer":
-        input_id = st.number_input('enter the customer id to delete')
-        if input_id > 0:
-            input_id = int(input_id)
-            delete_cust_by_id(input_id)
     else:
         st.write("choisir tu dois")
 
 
 def display_cust_page():
-    st.write("this is the coach page")
+    st.write("this is the customer page")
 
 
 def charge_all_data(table_name):
