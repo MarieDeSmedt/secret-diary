@@ -26,6 +26,12 @@ class Customer(CustomerBase):
     class Config:
         orm_mode = True
 
+class CustomerCreate(CustomerBase):
+    name: str
+    firstname: str
+    information: Optional[str] = "None"
+    creation_date: str
+
 
 # ################################TEXT########################################""
 

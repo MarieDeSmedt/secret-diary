@@ -21,7 +21,7 @@ class Text(Base):
     __tablename__ = "text"
 
     id_text = Column(Integer, primary_key=True, index=True)
-    information = Column(String(255), unique=False, index=True)
+    content = Column(String(255), unique=False, index=True)
     creation_date = Column(String(25), unique=False, index=True)
     modification_date = Column(String(25), unique=False, index=True)
     deleted_date = Column(String(25), unique=False, index=True)

@@ -1,7 +1,5 @@
 import mysql.connector
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from conf.connect import mysql_user, mysql_host, mysql_password, database_name
 
 
@@ -85,12 +83,12 @@ def connect_to_db():
 #         )'''
 #     #
 #     db_connection.execute(sql)
-
-
-def close_connection(mysql_connection):
-    """
-    close the connection to mysql
-    :param mysql_connection: an connection object
-    :return: nan
-    """
-    mysql_connection.close()
+#
+#
+# def close_connection(mysql_connection):
+#     """
+#     close the connection to mysql
+#     :param mysql_connection: an connection object
+#     :return: nan
+#     """
+#     mysql_connection.close()
