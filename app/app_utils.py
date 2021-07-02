@@ -29,8 +29,14 @@ def display_all_cust():
     if not response:
         st.write('No Data!')
     else:
-        j = response.json()
-        st.json(j)
+        customers = response.json()
+        for customer in customers:
+            st.write('Customer number: ', customer['id_customer'])
+            st.write('Name: ', customer['name'])
+            st.write('Firstname: ', customer['firstname'])
+            st.write('Information: ', customer['information'])
+            st.write('Creation_date: ', customer['creation_date'])
+            st.write('---------------------------------------')
 
 
 def create_cust():
@@ -41,11 +47,8 @@ def create_cust():
             input_information = st.text_input('Information:')
             if len(input_information) > 0:
                 if st.button('create customer'):
-                    customer = {}
-                    customer['name'] = input_name
-                    customer['firstname'] = input_firstname
-                    customer['information'] = input_information
-                    customer['creation_date'] = datetime.today().strftime('%Y-%m-%d')
+                    customer = {'name': input_name, 'firstname': input_firstname, 'information': input_information,
+                                'creation_date': datetime.today().strftime('%Y-%m-%d')}
 
                     response = requests.post("http://127.0.0.1:8000/customer/", json=customer)
                     if not response:
@@ -111,7 +114,7 @@ def delete_cust_by_id(id):
 def display_coach_page():
     selection = st.selectbox("Action",
                              ["Chosse action", "create a customer", 'display a customer', 'display all customers',
-                              'delete customer', 'update a customer'], index=0)
+                              'delete customer', 'update a customer', "Display list of texts"], index=0)
     if selection == "display a customer":
         input_id = st.number_input('enter the customer id to display')
         if input_id > 0:
@@ -131,6 +134,8 @@ def display_coach_page():
         if input_id > 0:
             input_id = int(input_id)
             update_cust_by_id(input_id)
+    elif selection == "Display list of texts":
+        display_all_text()
 
 
 def display_cust_page():
@@ -143,11 +148,22 @@ def display_cust_page():
         else:
             customer = response.json()
             selection = st.selectbox("Action",
-                                     ["Chosse action", "create a text", "display list of texts"])
-            if selection == "create a text":
+                                     ["Choose action", "Create a text", "Display list of texts", "Display a text",
+                                      "Delete a text"])
+            if selection == "Create a text":
                 create_text(customer['id_customer'])
-            if selection == "display list of texts":
-                display_all_text(customer['id_customer'])
+            elif selection == "Display list of texts":
+                display_all_text_by_cust(customer['id_customer'])
+            elif selection == "Delete a text":
+                input_id = st.number_input('enter the text id to delete')
+                if input_id > 0:
+                    input_id = int(input_id)
+                    delete_text_by_id(input_id)
+            elif selection == "Display a text":
+                input_id = st.number_input('enter the text id to display')
+                if input_id > 0:
+                    input_id = int(input_id)
+                    display_text_by_id(input_id)
 
 
 # ##########################################TEXT##################################################""
@@ -174,10 +190,77 @@ def create_text(id_customer: int):
                 st.write("the text is save")
 
 
-def display_all_text(id_customer: int):
-    response = requests.get(" http://127.0.0.1:8000/text/{}".format(id_customer))
+def display_all_text():
+    response = requests.get(" http://127.0.0.1:8000/text/all/")
     if not response:
-        st.write('No Data!')
+        st.write('No text!')
     else:
-        j = response.json()
-        st.json(j)
+        texts = response.json()
+        for text in texts:
+            result = requests.get(" http://127.0.0.1:8000/customer/{}".format(text['id_customer']))
+            if not result:
+                st.write('No writer')
+            else:
+                writer = result.json()
+                st.write('Text Number: ', text['id_text'])
+                st.write('Writer: {} {} '.format(writer['name'], writer['firstname']))
+                st.write('Content: ', text['content'])
+                st.write('feelings: {}({}%), {}({}%), {}({}%)'.format(text['first_feeling'], text['first_pourcentage'],
+                                                                      text['second_feeling'], text['second_pourcentage'],
+                                                                      text['third_feeling'], text['third_pourcentage']
+                                                                      ))
+                st.write('------------------------------------------------')
+
+
+def delete_text_by_id(id_text: int):
+    response = requests.get(" http://127.0.0.1:8000/text/{}".format(id_text))
+    if not response:
+        st.write('text dont exist!')
+    else:
+        response = requests.delete("http://127.0.0.1:8000/text/{}".format(id_text))
+        if not response:
+            st.write('no response')
+        else:
+            st.write('text deleted')
+
+
+def display_text_by_id(id_text: int):
+    response = requests.get(" http://127.0.0.1:8000/text/{}".format(id_text))
+    if not response:
+        st.write('No text!')
+    else:
+        text = response.json()
+
+        result = requests.get(" http://127.0.0.1:8000/customer/{}".format(text['id_customer']))
+        if not result:
+            st.write('No writer')
+        else:
+            writer = result.json()
+            st.write('Text Number: ', text['id_text'])
+            st.write('Writer: {} {} '.format(writer['name'], writer['firstname']))
+            st.write('Content: ', text['content'])
+            st.write('feelings: {}({}%), {}({}%), {}({}%)'.format(text['first_feeling'], text['first_pourcentage'],
+                                                                  text['second_feeling'], text['second_pourcentage'],
+                                                                  text['third_feeling'], text['third_pourcentage']
+                                                                  ))
+
+def display_all_text_by_cust(id_customer : int):
+    response = requests.get(" http://127.0.0.1:8000/text/all/{}".format(id_customer))
+    if not response:
+        st.write('No text!')
+    else:
+        texts = response.json()
+        for text in texts:
+            result = requests.get(" http://127.0.0.1:8000/customer/{}".format(text['id_customer']))
+            if not result:
+                st.write('No writer')
+            else:
+                writer = result.json()
+                st.write('Text Number: ', text['id_text'])
+                st.write('Writer: {} {} '.format(writer['name'], writer['firstname']))
+                st.write('Content: ', text['content'])
+                st.write('feelings: {}({}%), {}({}%), {}({}%)'.format(text['first_feeling'], text['first_pourcentage'],
+                                                                      text['second_feeling'], text['second_pourcentage'],
+                                                                      text['third_feeling'], text['third_pourcentage']
+                                                                      ))
+                st.write('------------------------------------------------')

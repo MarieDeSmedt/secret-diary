@@ -64,17 +64,41 @@ def delete_cust_by_id(id: int, db: Session = Depends(get_db)):
 
 
 
-#
+
 # # ###################   TEXT    ######################################################################
+@api.get("/text/all/{id_customer}", response_model=List[schemas.Text])
+def get_all_text_id_cust(id_customer: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    texts = crud.get_all_text_id_cust(id_customer, db, skip=skip, limit=limit)
+    if texts is None:
+        raise HTTPException(status_code=404, detail="texts not found")
+    return texts
+
+
+@api.get("/text/all/", response_model=List[schemas.Text])
+def get_all_text(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    texts = crud.get_all_text(db, skip=skip, limit=limit)
+    if texts is None:
+        raise HTTPException(status_code=404, detail="texts not found")
+    return texts
+
+
+@api.get("/text/{id_text}", response_model=schemas.Text)
+def get_text(id_text: int, db: Session = Depends(get_db)):
+    text = crud.get_text(db, id_text)
+    if text is None:
+        raise HTTPException(status_code=404, detail="text not found")
+    return text
 
 @api.post("/text/", response_model=schemas.Text)
 def create_ext(new_text: dict, db: Session = Depends(get_db)):
     return crud.create_text(db=db, new_text=new_text)
 
-@api.get("/text/{id_customer}", response_model=List[schemas.Text])
-def get_all_text(id_customer: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    texts = crud.get_all_text(id_customer, db, skip=skip, limit=limit)
-    if texts is None:
+
+
+@api.delete("/text/{id}")
+def delete_text_by_id(id: int, db :Session = Depends(get_db)):
+    text = crud.get_text(db=db, id_text=id)
+    if text is None:
         raise HTTPException(status_code=404, detail="text not found")
-    return texts
+    return crud.delete_text(db=db,text_to_delete=text)
 

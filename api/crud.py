@@ -68,11 +68,13 @@ def create_text(db: Session, new_text: dict):
     return text
 
 
-def get_text(db, id_text: int):
-    return db.get(models.Text, id_text)
+def get_text(db: Session, id_text: int):
+    return db.query(models.Text).filter(models.Text.id_text == id_text).first()
 
+def get_all_text(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Text).offset(skip).limit(limit).all()
 
-def get_all_text(id: int,db: Session, skip: int = 0, limit: int = 100):
+def get_all_text_id_cust(id: int,db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Text).filter(models.Text.id_customer == id).offset(skip).limit(limit).all()
 
 
