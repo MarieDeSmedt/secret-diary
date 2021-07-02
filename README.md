@@ -42,12 +42,16 @@ For it:
 -> api
 
     -> api.py (api using fastapi)
+    -> crud.py (crud methods to ensure data persistence)
+    -> models.py ( define antities for database)
+    -> schemas.py (define entities shape to use pydantic)
        
       
  -> app
 
     -> app_utils (methods)
     -> my_app (front app with streamlit)
+    -> page.py (class used for display pages on streamlit)
     
  -> src
     
@@ -55,6 +59,11 @@ For it:
         
         -> __init__
         -> mysql_utils (method to connect to database)
+        
+    -> start
+    
+        -> __init__
+        -> to_start (run first to create and connect database)
    
 
 
@@ -64,8 +73,9 @@ For it:
 
 localy :
 
-- uvicorn api.api:api --reload
-- streamlit run app/my_app.py
+- run to_start.py 
+- in terminal: uvicorn api.api:api --reload
+- in terminal: streamlit run app/my_app.py
 
 
 
