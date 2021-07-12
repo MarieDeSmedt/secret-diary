@@ -73,7 +73,7 @@ For it:
 
 localy :
 
-- run to_start.py 
+
 - in terminal: uvicorn api.api:api --reload
 - in terminal: streamlit run app/my_app.py
 
