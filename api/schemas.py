@@ -8,7 +8,6 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
 
-
 # #######################################CUSTOMER##########################"
 class CustomerBase(BaseModel):
     pass
@@ -25,6 +24,7 @@ class Customer(CustomerBase):
 
     class Config:
         orm_mode = True
+
 
 class CustomerCreate(CustomerBase):
     name: str
@@ -47,12 +47,9 @@ class Text(TextBase):
     deleted_date: Optional[str] = None
     id_customer: int
     content: str
-    first_feeling: str
-    first_pourcentage: int
-    second_feeling: Optional[str] = None
-    second_pourcentage: Optional[int] = None
-    third_feeling: Optional[str] = None
-    third_pourcentage: Optional[int] = None
+    feeling: str
+    score: int
+
 
     class Config:
         orm_mode = True

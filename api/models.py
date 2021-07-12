@@ -25,12 +25,9 @@ class Text(Base):
     creation_date = Column(String(25), unique=False, index=True)
     modification_date = Column(String(25), unique=False, index=True)
     deleted_date = Column(String(25), unique=False, index=True)
-    first_feeling = Column(String(25), unique=False, index=True)
-    first_pourcentage = Column(Integer, unique=False, index=True)
-    second_feeling = Column(String(25), unique=False, index=True)
-    second_pourcentage = Column(Integer, unique=False, index=True)
-    third_feeling = Column(String(25), unique=False, index=True)
-    third_pourcentage = Column(Integer, unique=False, index=True)
+    feeling = Column(String(25), unique=False, index=True)
+    score = Column(Integer, unique=False, index=True)
+
     id_customer = Column(Integer, ForeignKey('customer.id_customer'))
 
     writer = relationship("Customer", back_populates="cust_text")

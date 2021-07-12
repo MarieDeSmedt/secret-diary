@@ -7,16 +7,15 @@ from app_utils import display_cust_page, display_coach_page
 from page import Page
 
 # ############################################################################################
+
+# initiate the home page with the sidebar options
+
 st.sidebar.markdown("### first page")
 
 app = Page()
 app.add_page("coach", display_coach_page)
 app.add_page("customer", display_cust_page)
-
-
 app.run()
 
-# a la fin faire un save dans la db
-# upload_table(df, table_name, db_connection)
 
 # ##########################################################################################
