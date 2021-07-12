@@ -1,12 +1,10 @@
-import pandas as pd
-import json
+
 
 from typing import List
 from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from src.start.to_start import SessionLocal, db_connection
-from datetime import timedelta
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException
 
 models.Base.metadata.create_all(bind=db_connection)
 
@@ -92,7 +90,6 @@ def get_text(id_text: int, db: Session = Depends(get_db)):
 @api.post("/text/", response_model=schemas.Text)
 def create_ext(new_text: dict, db: Session = Depends(get_db)):
     return crud.create_text(db=db, new_text=new_text)
-
 
 
 @api.delete("/text/{id}")
